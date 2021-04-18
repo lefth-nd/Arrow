@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.util.Random;
 import java.util.concurrent.*;
 
@@ -11,6 +12,8 @@ public class Arrow extends JPanel implements ActionListener {
 
     Timer tm = new Timer(100, this);
     int x = 0;
+    int n = 0;
+    int countdown = 1000;
     int sine;
     double velC = Math.sin(44.5);
 
@@ -49,6 +52,13 @@ public class Arrow extends JPanel implements ActionListener {
     boolean flip = false;
     boolean flip2 = false;
     boolean backtrack = false;
+    boolean draw = false;
+    boolean placed = false;
+
+    boolean size = false;
+
+    boolean put = false;
+    int x1, y1, a1;
     public void paintComponent(Graphics g){
 
         super.paintComponent(g);
@@ -58,6 +68,8 @@ public class Arrow extends JPanel implements ActionListener {
         String label = Integer.toString(x);
         Font font = new Font("Serif", Font.PLAIN, 96);
         g2D.setFont(font);
+
+        ///old arrows
 
         //g2D.setColor(Color.black);
         //g2D.drawLine(320*lengthA, 50*lengthA, 320*lengthA, 100*lengthA); ///instigator
@@ -91,6 +103,7 @@ public class Arrow extends JPanel implements ActionListener {
         //g2D.drawLine(340*lengthB, 50*lengthB, 340*lengthB, 100*lengthB);
         //g2D.drawLine(320*lengthB, 100*lengthB, 340*lengthB, 100*lengthB);
 
+        ///draw the shapes
         if(x % 2 == 0){
             g2D.setColor(Color.red);
         }else{
@@ -120,7 +133,6 @@ public class Arrow extends JPanel implements ActionListener {
         }
         g2D.drawOval((int) x_dim/6, (int) y_dim/4,width, width);
 
-
         ///slinkys that go the other way!!
 
         g2D.drawOval(1000, 120, width/2, width/2);
@@ -144,10 +156,12 @@ public class Arrow extends JPanel implements ActionListener {
 
         tm.start();
         g2D.drawString(label, 800, 200);
+        g2D.drawString(String.valueOf(draw), 800, 280);
+        g2D.drawString("newland", 3440/2, 1440/3);
 
         ///g2D.drawOval((int) ovalX, (int) ovalY, 90, 90);
 
-        //test
+        //switch for colours
         switch (chaos) {
             case 0 -> g2D.setColor(Color.red);
             case 1 -> g2D.setColor(Color.blue);
@@ -158,9 +172,13 @@ public class Arrow extends JPanel implements ActionListener {
         }
         //g2D.drawOval((int) oX, (int) oY, w, h);
 
+        //fancy globes
         g2D.drawOval(3440/2, (int) oY + 1440/2, w, h);
         g2D.drawOval((int) oX2 + 3440/2, (int) oY2 + 1440/2, w2, h2);
+        g2D.drawOval(3440/3, (int) oY + 1440/3, w, h);
+        g2D.drawOval((int) oX2 + 3440/3, (int) oY2 + 1440/3, w2, h2);
 
+        //random circle
         g2D.drawOval(3440/3, (int) oY2 + random1/100, w*3, h*3);
 
         g2D.draw3DRect((int) oX2 + 3440/2, (int) oY2 + 1440/3, w*2, h, true);
@@ -170,9 +188,31 @@ public class Arrow extends JPanel implements ActionListener {
 
         g2D.drawLine((int)lineX1, (int)lineY1, (int)lineX2, (int)lineY2);
         g2D.drawLine(3440/2+h, 1440/2, (3400/2)*2, w2*h);
+        g2D.drawLine((480), h2, 1, w2*h);
 
         //sine wave
         g2D.drawOval((int) sinex, (int) siney+500, 50, 50);
+
+
+        //////////////////////////////////////////////////////////////////////
+
+        if(draw){
+        }
+
+        if(put){
+            drawSquare(g);
+        }
+        if(placed){
+            drawBall(g);
+        }
+
+        if(size){
+            a1 = a;
+        }
+
+
+
+
 
         repaint();
     }
@@ -188,12 +228,15 @@ public class Arrow extends JPanel implements ActionListener {
         random1 = r.nextInt(500);
         sine = sine + 10;
         x = x + 1;
+        n = n + 1;
+        countdown = countdown - 1;
 
         double newx = (double) x + 1/100.0;
 
         p1 = 800;
         p2 = 400;
 
+        //top line
         if(x % 2 == 0){
             p3 = p3+x/100.0;
         }else{
@@ -210,7 +253,6 @@ public class Arrow extends JPanel implements ActionListener {
         if(ovalY > 440){
             ovalY = ovalY + Math.sin(-45);
         }
-
         if(ovalX > 2000){
             ovalY = ovalY + 3;
         }
@@ -289,7 +331,6 @@ public class Arrow extends JPanel implements ActionListener {
         System.out.println(Math.sin(sine));
 
 
-
         //slinky calc
         sine = sine + x*sine;
         velC = velC*Math.sin(sine);
@@ -348,12 +389,19 @@ public class Arrow extends JPanel implements ActionListener {
 
     }
 
-    public void setPainter(boolean bool){
+    public void drawBall(Graphics g){
+        g.drawOval(x1, y1 + 4*n*n - 20, 50, 50);
+
+
         repaint();
+
+
+        //g.drawOval(x1, y1, 50+(a1), 50+(a1));
+
     }
-    public void setLength(int len){
-        lengthA = len;
-        System.out.println(lengthA);
-        repaint();
+    public void drawSquare(Graphics g){
+        g.draw3DRect(x1, y1, 100, 100, false);
     }
+
+
 }
