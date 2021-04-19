@@ -27,9 +27,15 @@ public class Arrow extends JPanel implements ActionListener {
     int chaos;
 
     int width;
+    Random r1 = new Random();
+    int ran = r1.nextInt(300)+50;
 
     //double val for line drawing
     double p1, p2, p3, p4;
+
+    double left = 1000;
+    double right = 1000;
+    double angle;
 
     double lineX1, lineX2, lineY1, lineY2;
 
@@ -42,6 +48,8 @@ public class Arrow extends JPanel implements ActionListener {
 
     int w2 = 120;
     int h2 = 120;
+
+    int rectX, rectY;
 
     double sinex, siney;
 
@@ -59,6 +67,10 @@ public class Arrow extends JPanel implements ActionListener {
 
     boolean put = false;
     int x1, y1, a1;
+
+    int score;
+
+    @Override
     public void paintComponent(Graphics g){
 
         super.paintComponent(g);
@@ -155,9 +167,11 @@ public class Arrow extends JPanel implements ActionListener {
         ///g2D.drawLine((int) p1,(int) p2,(int) p3,(int) p4);
 
         tm.start();
+        ///headings
         g2D.drawString(label, 800, 200);
         g2D.drawString(String.valueOf(draw), 800, 280);
         g2D.drawString("newland", 3440/2, 1440/3);
+        g2D.drawString(String.valueOf(score), 30, 1300);
 
         ///g2D.drawOval((int) ovalX, (int) ovalY, 90, 90);
 
@@ -170,29 +184,54 @@ public class Arrow extends JPanel implements ActionListener {
             case 4 -> g2D.setColor(Color.cyan);
             default -> g2D.setColor(Color.pink);
         }
-        //g2D.drawOval((int) oX, (int) oY, w, h);
+        g2D.drawOval((int) oX, (int) oY, w, h+h+h);
 
-        //fancy globes
-        g2D.drawOval(3440/2, (int) oY + 1440/2, w, h);
-        g2D.drawOval((int) oX2 + 3440/2, (int) oY2 + 1440/2, w2, h2);
-        g2D.drawOval(3440/3, (int) oY + 1440/3, w, h);
-        g2D.drawOval((int) oX2 + 3440/3, (int) oY2 + 1440/3, w2, h2);
+            //fancy globes
+            g2D.drawOval(3440 / 2, (int) oY + 1440 / 2, w, h);
+            g2D.drawOval((int) oX2 + 3440 / 2, (int) oY2 + 1440 / 2, w2, h2);
+            g2D.drawOval(3440 / 3, (int) oY + 1440 / 3, w, h);
+            g2D.drawOval((int) oX2 + 3440 / 3, (int) oY2 + 1440 / 3, w2, h2);
 
-        //random circle
-        g2D.drawOval(3440/3, (int) oY2 + random1/100, w*3, h*3);
+        if(draw) {
+            //random circle
+            g2D.drawOval(3440 / 3, (int) oY2 + random1 / 100, w * 3, h * 3);
 
-        g2D.draw3DRect((int) oX2 + 3440/2, (int) oY2 + 1440/3, w*2, h, true);
-        //leftmost rectangle
-        g2D.draw3DRect((int) oX2 + 3440/4, (int) oY2 + 1440/4, w*2, h*4, true);
+            g2D.draw3DRect((int) oX2 + 3440 / 2, (int) oY2 + 1440 / 3, w * 2, h, true);
+            //leftmost rectangle
+            g2D.draw3DRect((int) oX2 + 3440 / 4, (int) oY2 + 1440 / 4, w * 2, h * 4, true);
 
 
-        g2D.drawLine((int)lineX1, (int)lineY1, (int)lineX2, (int)lineY2);
-        g2D.drawLine(3440/2+h, 1440/2, (3400/2)*2, w2*h);
-        g2D.drawLine((480), h2, 1, w2*h);
+            g2D.drawLine((int) lineX1, (int) lineY1, (int) lineX2, (int) lineY2);
+            g2D.drawLine(3440 / 2 + h, 1440 / 2, (3400 / 2) * 2, w2 * h);
+            g2D.drawLine((480), h2, 1, w2 * h);
 
-        //sine wave
-        g2D.drawOval((int) sinex, (int) siney+500, 50, 50);
+            //sine wave
+            g2D.drawOval((int) sinex, (int) siney + 500, 50, 50);
 
+            //player
+            g2D.fillRect(230 + rectX, 600 + rectY, 15, 15);
+        }
+
+        //grid
+        for(int i = 100; i > 0; i=i-20){
+            //vertical
+            g2D.drawLine(200+6*i, 400, 200+6*i,800);
+
+            //horizontal
+            g2D.drawLine(400, 200+6*i, 800, 200+6*i);
+        }
+
+        //buildings
+        int start = 2000;
+        for(int i = 0; i < 1000; i=i+100){
+            g2D.drawRect(start+i, 1300-ran, 50, -i+ran*ran);
+        }
+
+        //orbiting circle
+        g2D.drawOval((int) left+1000, (int) right+1000, 50, 50);
+        g2D.fillOval(1000, 1000, 10, 10);
+
+        g2D.drawRect((int) left + 500, (int) right + 800, (int) left, (int) right);
 
         //////////////////////////////////////////////////////////////////////
 
@@ -203,15 +242,12 @@ public class Arrow extends JPanel implements ActionListener {
             drawSquare(g);
         }
         if(placed){
-            drawBall(g);
+            drawBall(g, 50, 50);
         }
 
         if(size){
             a1 = a;
         }
-
-
-
 
 
         repaint();
@@ -225,13 +261,15 @@ public class Arrow extends JPanel implements ActionListener {
         a = (int) m.getX();
         b = (int) m.getY();
 
+        angle = angle + 1/10.0;
+        left = 100 * Math.sin(angle);
+        right = 100 * Math.cos(angle);
+
         random1 = r.nextInt(500);
         sine = sine + 10;
         x = x + 1;
         n = n + 1;
         countdown = countdown - 1;
-
-        double newx = (double) x + 1/100.0;
 
         p1 = 800;
         p2 = 400;
@@ -384,13 +422,15 @@ public class Arrow extends JPanel implements ActionListener {
         }
 
 
+
+
+
         repaint();
-
-
     }
 
-    public void drawBall(Graphics g){
-        g.drawOval(x1, y1 + 4*n*n - 20, 50, 50);
+    public void drawBall(Graphics g, int width, int height){
+
+        g.drawOval(x1, y1 + 4*n*n - 20, width, height);
 
 
         repaint();

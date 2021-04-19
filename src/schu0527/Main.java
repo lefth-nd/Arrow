@@ -3,10 +3,7 @@ package schu0527;
 import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 import java.security.Key;
@@ -25,12 +22,14 @@ public class Main {
         DataLine.Info info = new DataLine.Info(Clip.class, format);
         Clip audioClip = (Clip) AudioSystem.getLine(info);
         audioClip.open(audioStream);
-        audioClip.start();
+        ///audioClip.start();
 
 
         a.setBackground(Color.black);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+
 
         frame.addMouseListener(new MouseListener() {
             @Override
@@ -92,8 +91,20 @@ public class Main {
                 }
                 if(key == KeyEvent.VK_SPACE){
                     a.n = a.n + (a.n - (a.n-1));
+                }
 
 
+                if(key == KeyEvent.VK_W){
+                    a.rectY = a.rectY - 25;
+                }
+                if(key == KeyEvent.VK_S){
+                    a.rectY = a.rectY + 25;
+                }
+                if(key == KeyEvent.VK_D){
+                    a.rectX = a.rectX + 25;
+                }
+                if(key == KeyEvent.VK_A){
+                    a.rectX = a.rectX - 25;
                 }
 
             }
@@ -104,6 +115,8 @@ public class Main {
             }
         });
 
+
+        ///Arrow (Graphic)
         frame.add(a);
 
         frame.setVisible(true);
