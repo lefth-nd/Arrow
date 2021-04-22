@@ -90,7 +90,6 @@ public class Main {
                     }
                 }
                 if(key == KeyEvent.VK_SPACE){
-                    a.n = a.n + (a.n - (a.n-1));
                 }
 
 
