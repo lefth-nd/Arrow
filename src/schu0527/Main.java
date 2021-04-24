@@ -16,7 +16,9 @@ public class Main {
         JFrame frame = new JFrame();
         Arrow a = new Arrow();
         File audioFile = new File("src/schu0527/audio.wav");
+        JPanel pane = new JPanel();
 
+        //AUDIO
         AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
         AudioFormat format = audioStream.getFormat();
         DataLine.Info info = new DataLine.Info(Clip.class, format);

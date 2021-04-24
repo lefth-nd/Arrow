@@ -179,6 +179,7 @@ public class Arrow extends JPanel implements ActionListener {
         g2D.drawString(label, 800, 200);
         g2D.drawString(String.valueOf(draw), 800, 280);
         g2D.drawString("newland", resolutionX/2, resolutionY/3);
+        g2D.drawString("click here", resolutionX/2, resolutionY-100);
         g2D.drawString(String.valueOf(score), 30, 1300);
 
         ///g2D.drawOval((int) ovalX, (int) ovalY, 90, 90);
@@ -192,7 +193,7 @@ public class Arrow extends JPanel implements ActionListener {
             case 4 -> g2D.setColor(Color.cyan);
             default -> g2D.setColor(Color.pink);
         }
-        g2D.drawOval((int) oX+1000, (int) oY, w, h+h+h);
+        //g2D.drawOval((int) oX+1000, (int) oY, w, h+h+h);
 
             //fancy globes
             g2D.drawOval(resolutionX / 2, (int) oY + resolutionY / 2, w, h);
@@ -210,9 +211,9 @@ public class Arrow extends JPanel implements ActionListener {
             g2D.draw3DRect((int) oX2 + resolutionX / 4, (int) oY2 + resolutionY / 4, w * 2, h * 4, true);
 
 
-            g2D.drawLine((int) lineX1, (int) lineY1, (int) lineX2, (int) lineY2);
-            g2D.drawLine(resolutionX / 2 + h, resolutionY / 2, (3400 / 2) * 2, w2 * h);
-            g2D.drawLine((480), h2, 1, w2 * h);
+            //g2D.drawLine((int) lineX1, (int) lineY1, (int) lineX2, (int) lineY2);
+            //g2D.drawLine(resolutionX / 2 + h, resolutionY / 2, (3400 / 2) * 2, w2 * h);
+            //g2D.drawLine((480), h2, 1, w2 * h);
 
             //sine wave
             g2D.drawOval((int) sinex, (int) siney + 500, 50, 50);
@@ -238,23 +239,33 @@ public class Arrow extends JPanel implements ActionListener {
                 g2D.drawLine(200, 200 + 8 * i, 1000, 200 + 8 * i);
             }
 
+            g2D.setColor(Color.green);
             //obstacles
             g2D.fillRect(200 + 8 * 20, 280, 80, 480);
             g2D.fillRect(200 + 8 * 40, 280, 80, 320);
-            g2D.fillRect(200 + 8 * 40, 280, 320, 80 + h);
+            g2D.fillRect(200 + 8 * 40, 280, 320, 80 + h*2);
             g2D.fillRect(280, 200 + 8 * 40, 80, 320);
             g2D.fillRect(200 + 8 * 20, 680, 480, 80);
+            //bounds
+            g2D.fillRect(120, 240, 80, 680);
+            g2D.fillRect(120, 120, 720, 80);
+            g2D.fillRect(920, 320, 80, 640);
+            g2D.fillRect(120, 920, 880, 80);
         }
+        ///end condition
+
         //buildings
-        int start = 2000;
-        for(int i = 0; i < 1000; i=i+100){
-            g2D.drawRect(start+i, 1300-ran, 50, -i+ran*ran);
+        int start = 200;
+        int[] addY = {43, 40, 410, 670, 230, 210, 290, 45, 67, 16};
+        int[] addX = {12, 2, 4, 33, 2, 3, 21, 11, 23, 4};
+        for(int i = 0; i < 10; i=i+1){
+            g2D.drawRect((start+i*100)+addX[i], (1300-i*10)-addY[i], 50+addX[i], i+ran*ran);
         }
 
         //orbiting circle
-        g2D.drawOval((int) left+1000, (int) right+1000, 50, 50);
-        g2D.drawOval((int) left+1050+(int)left1, (int) right+1050+(int)right1, 20, 20);
-        g2D.fillOval(1000, 1000, 10, 10);
+        g2D.drawOval((int) left+2200, (int) right+600, 50, 50);
+        //g2D.drawOval((int) left+1050+(int)left1, (int) right+1050+(int)right1, 20, 20);
+        g2D.fillOval(2200, 600, 10, 10);
 
         for(int x = 0; x < 2500; x = x + 100){
             //g2D.drawRect((int) left + 500, (int) right + 800+x, 10, 10);
@@ -271,6 +282,7 @@ public class Arrow extends JPanel implements ActionListener {
         if(placed){
             //drawBall(g, 50, 50);
             drawCube(g);
+            drawCube1(g);
         }
 
 
@@ -398,7 +410,7 @@ public class Arrow extends JPanel implements ActionListener {
         }
         siney = 10*Math.sin(sinex);
 
-        System.out.println(Math.sin(sine));
+        System.out.println((int) (Math.sin(angle)*10));
 
 
         //slinky calc
@@ -485,26 +497,34 @@ public class Arrow extends JPanel implements ActionListener {
 
     public void drawCube(Graphics g){
         double rotX1, rotX2, rotX3, rotX4, rotY1, rotY2, rotY3, rotY4;
-        double interval = 60;
-        rotX1 = interval * Math.sin(angle);
-        rotX2 = interval * Math.cos(angle+180);
-        rotX3 = interval * Math.sin(angle+270);
-        rotX4 = interval * Math.cos(angle+90);
-        rotY1 = interval * Math.cos(angle);
-        rotY2 = interval * Math.cos(angle+180);
-        rotY3 = interval * Math.cos(angle+270);
-        rotY4 = interval * Math.cos(angle+90);
-        int[] x = {100+a+(int)rotX1, 140+a+(int)rotX2, 180+a+(int)rotX3, 140+a+(int)rotX4};
-        int[] y = {300+b+(int)rotY1, 280+b+(int)rotY2, 300+b+(int)rotY3, 320+b+(int)rotY4};
+        double interval = 11.25*5;
+        //1 3 4 2
+        rotX1 = interval * Math.cos(angle+90);
+        rotX2 = interval * Math.cos(angle+360);
+        rotX3 = interval * Math.cos(angle+180);
+        rotX4 = interval * Math.cos(angle+270);
+        rotY1 = interval * Math.sin(angle+90);
+        rotY2 = interval * Math.sin(angle+360);
+        rotY3 = interval * Math.sin(angle+180);
+        rotY4 = interval * Math.sin(angle+270);
+        int[] x = {100+(int)rotX1, 140+(int)rotX2, 180+(int)rotX3, 140+(int)rotX4};
+        int[] y = {300+(int)rotY1, 280+(int)rotY2, 300+(int)rotY3, 320+(int)rotY4};
         g.drawPolygon(x, y, 4);
-        int[] d = {100+a+(int)rotX1, 140+a+(int)rotX2, 180+a+(int)rotX3, 140+a+(int)rotX4};
-        int[] c = {300+45+b+(int)rotY1, 280+45+b+(int)rotY2, 300+45+b+(int)rotY3, 320+45+b+(int)rotY4};
+        int[] d = {100+(int)rotX1, 140+(int)rotX2, 180+(int)rotX3, 140+(int)rotX4};
+        int[] c = {300+45+(int)rotY1, 280+45+(int)rotY2, 300+45+(int)rotY3, 320+45+(int)rotY4};
         g.drawPolygon(d, c, 4);
-        g.drawLine(100+a+(int)rotX1, 300+b+(int)rotY1, 100+a+(int)rotX1, 345+b+(int)rotY1);
-        g.drawLine(180+a+(int)rotX3, 300+b+(int)rotY3, 180+a+(int)rotX3, 345+b+(int)rotY3);
+        g.drawLine(100+(int)rotX1, 300+(int)rotY1, 100+(int)rotX1, 345+(int)rotY1);
+        g.drawLine(180+(int)rotX3, 300+(int)rotY3, 180+(int)rotX3, 345+(int)rotY3);
 
-        g.drawLine(140+a+(int)rotX4, 320+b+(int)rotY4, 140+a+(int)rotX4, 365+b+(int)rotY4);
-        g.drawLine(140+a+(int)rotX2, 280+b+(int)rotY2, 140+a+(int)rotX2, 325+b+(int)rotY2);
+        g.drawLine(140+(int)rotX4, 320+(int)rotY4, 140+(int)rotX4, 365+(int)rotY4);
+        g.drawLine(140+(int)rotX2, 280+(int)rotY2, 140+(int)rotX2, 325+(int)rotY2);
+    }
+    public void drawCube1(Graphics g){
+        int n = (int) (Math.sin((angle*10))*45);
+        int[] x = {800, 950, 950, 860};
+        int[] y = {500, 600, 650, 700};
+        g.drawPolygon(x, y, 4);
+
     }
 
 
