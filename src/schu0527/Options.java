@@ -3,7 +3,7 @@ package schu0527;
 import javax.swing.*;
 import java.awt.*;
 
-public class Options extends Arrow {
+public class Options {
 
     JSlider slide = new JSlider();
     public void option(){

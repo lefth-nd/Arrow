@@ -45,6 +45,7 @@ public class Arrow extends JPanel implements ActionListener {
     double left1 = 1000;
     double right1 = 1000;
     double angle = 1;
+    double angleN = 1;
 
     double lineX1, lineX2, lineY1, lineY2;
 
@@ -178,8 +179,8 @@ public class Arrow extends JPanel implements ActionListener {
         ///headings
         g2D.drawString(label, 800, 200);
         g2D.drawString(String.valueOf(draw), 800, 280);
-        g2D.drawString("newland", resolutionX/2, resolutionY/3);
-        g2D.drawString("click here", resolutionX/2, resolutionY-100);
+        g2D.drawString("newland", resolutionX/2 - 300, resolutionY-(resolutionY-200));
+        g2D.drawString("click here", resolutionX-550, resolutionY-100);
         g2D.drawString(String.valueOf(score), 30, 1300);
 
         ///g2D.drawOval((int) ovalX, (int) ovalY, 90, 90);
@@ -196,8 +197,8 @@ public class Arrow extends JPanel implements ActionListener {
         //g2D.drawOval((int) oX+1000, (int) oY, w, h+h+h);
 
             //fancy globes
-            g2D.drawOval(resolutionX / 2, (int) oY + resolutionY / 2, w, h);
-            g2D.drawOval((int) oX2 + resolutionX / 2, (int) oY2 + resolutionY / 2, w2, h2);
+            //g2D.drawOval(resolutionX / 2, (int) oY + resolutionY / 2, w, h);
+            //g2D.drawOval((int) oX2 + resolutionX / 2, (int) oY2 + resolutionY / 2, w2, h2);
             g2D.drawOval(resolutionX / 3, (int) oY + resolutionY / 3, w, h);
             g2D.drawOval((int) oX2 + resolutionX / 3, (int) oY2 + resolutionY / 3, w2, h2);
 
@@ -280,7 +281,7 @@ public class Arrow extends JPanel implements ActionListener {
             //drawSquare(g);
         }
         if(placed){
-            //drawBall(g, 50, 50);
+            drawBall(g, 50, 50);
             drawCube(g);
             drawCube1(g);
         }
@@ -303,6 +304,7 @@ public class Arrow extends JPanel implements ActionListener {
         b = (int) m.getY();
 
         angle = angle + 1/10.0;
+        angleN = angleN + Math.PI/10;
         left = 300 * Math.sin(angle);
         right = 100 * Math.cos(angle);
 
@@ -520,11 +522,29 @@ public class Arrow extends JPanel implements ActionListener {
         g.drawLine(140+(int)rotX2, 280+(int)rotY2, 140+(int)rotX2, 325+(int)rotY2);
     }
     public void drawCube1(Graphics g){
-        int n = (int) (Math.sin((angle*10))*45);
-        int[] x = {800, 950, 950, 860};
-        int[] y = {500, 600, 650, 700};
-        g.drawPolygon(x, y, 4);
+        int n = (int) (90*Math.cos(angle)*2);
+        int z = (int) (90*Math.sin(angle)*2);
+        int f = (int) (-90*Math.cos(angle)*2);
+        int s = (int) (-90*Math.sin(angle)*2);
+        int[] x = {800+n, 850+z, 900+f, 860+s};
+        int[] y = {455, 450, 455, 475};
 
+        int[] d = {800+n, 850+z, 900+f, 860+s};
+        int[] c = {505, 500, 505, 525};
+        g.drawPolygon(x, y, 4);
+        g.drawPolygon(d, c, 4);
+
+        g.drawLine(800+n, 455, 800+n, 505);
+        g.drawLine(850+z, 450, 850+z, 500);
+        g.drawLine(900+f, 455, 900+f, 505);
+        g.drawLine(860+s, 475, 860+s, 525);
+
+    }
+
+    public void drawTriangle(Graphics g){
+        int[] x = {100, 200, 300};
+        int[] y = {200, 100, 400};
+        g.drawPolygon(x, y, 3);
     }
 
 

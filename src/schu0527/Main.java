@@ -16,7 +16,6 @@ public class Main {
         JFrame frame = new JFrame();
         Arrow a = new Arrow();
         File audioFile = new File("src/schu0527/audio.wav");
-        JPanel pane = new JPanel();
 
         //AUDIO
         AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
@@ -37,6 +36,8 @@ public class Main {
             @Override
             public void mouseClicked(MouseEvent e) {
 
+
+
             }
 
             @Override
@@ -55,6 +56,7 @@ public class Main {
                 a.n = 0;
                 a.x1 = a.a;
                 a.y1 = a.b;
+
 
 
             }
