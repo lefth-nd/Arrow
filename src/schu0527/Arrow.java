@@ -11,18 +11,18 @@ import java.util.concurrent.*;
 public class Arrow extends JPanel implements ActionListener {
 
     Timer tm = new Timer(100, this);
-    boolean quick = false;
-    int x = 0;
-    int n = 0;
-    int resolutionX = 3440;
-    int resolutionY = 1440;
-    int yyy;
-    int countdown = 1000;
-    int sine;
-    double velC = Math.sin(44.5);
+    private boolean quick = false;
+    private int x = 0;
+    public int n = 0;
+    private int resolutionX = 3440;
+    private int resolutionY = 1440;
+    private int yyy;
+    private int countdown = 1000;
+    private int sine;
+    private double velC = Math.sin(44.5);
 
-    int startposX = 400;
-    int startposY = 255;
+    private int startposX = 400;
+    private int startposY = 255;
 
     String[] orientation = {"N", "E", "S", "W"};
 
@@ -522,9 +522,9 @@ public class Arrow extends JPanel implements ActionListener {
         g.drawLine(140+(int)rotX2, 280+(int)rotY2, 140+(int)rotX2, 325+(int)rotY2);
     }
     public void drawCube1(Graphics g){
-        int n = (int) (90*Math.cos(angle)*2);
+        int n = (int) (90*Math.cos(angle));
         int z = (int) (90*Math.sin(angle)*2);
-        int f = (int) (-90*Math.cos(angle)*2);
+        int f = (int) (-90*Math.cos(angle));
         int s = (int) (-90*Math.sin(angle)*2);
         int[] x = {800+n, 850+z, 900+f, 860+s};
         int[] y = {455, 450, 455, 475};
