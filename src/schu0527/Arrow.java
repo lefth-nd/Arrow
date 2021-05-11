@@ -10,7 +10,7 @@ import java.util.concurrent.*;
 
 public class Arrow extends JPanel implements ActionListener {
 
-    Timer tm = new Timer(100, this);
+    Timer tm = new Timer(10, this);
     private boolean quick = false;
     private int x = 0;
     public int n = 0;
@@ -130,8 +130,8 @@ public class Arrow extends JPanel implements ActionListener {
         }else{
             g2D.setColor(Color.blue);
         }
-        g2D.drawOval((int) x_dim, (int) y_dim,width, width);
-        g2D.drawOval((int) x_dim/2, (int) y_dim,width, width);
+        //g2D.drawOval((int) x_dim, (int) y_dim,width, width);
+        //g2D.drawOval((int) x_dim/2, (int) y_dim,width, width);
         if(x % 3 == 0){
             g2D.setColor(Color.green);
         }else{
@@ -156,7 +156,7 @@ public class Arrow extends JPanel implements ActionListener {
 
         ///slinkys that go the other way!!
 
-        g2D.drawOval(1000, 120, width/2, width/2);
+        //g2D.drawOval(1000, 120, width/2, width/2);
         if(x % 2 == 0){
             g2D.setColor(Color.red);
         }else{
@@ -173,7 +173,7 @@ public class Arrow extends JPanel implements ActionListener {
             g2D.setColor(Color.blue);
         }
 
-        ///g2D.drawLine((int) p1,(int) p2,(int) p3,(int) p4);
+        g2D.drawLine((int) p1,(int) p2,(int) p3,(int) p4);
 
         tm.start();
         ///headings
@@ -199,14 +199,13 @@ public class Arrow extends JPanel implements ActionListener {
             //fancy globes
             //g2D.drawOval(resolutionX / 2, (int) oY + resolutionY / 2, w, h);
             //g2D.drawOval((int) oX2 + resolutionX / 2, (int) oY2 + resolutionY / 2, w2, h2);
-            g2D.drawOval(resolutionX / 3, (int) oY + resolutionY / 3, w, h);
-            g2D.drawOval((int) oX2 + resolutionX / 3, (int) oY2 + resolutionY / 3, w2, h2);
+            g2D.drawOval(resolutionX / 2, (int) oY + resolutionY / 3, w, h);
+            g2D.drawOval((int) oX2 + resolutionX / 2, (int) oY2 + resolutionY / 3, w2, h2);
 
             ///Condition to draw all objects
         if(draw) {
             //random circle
             g2D.drawOval(resolutionX / 3, (int) oY2 + random1 / 100, w * 3, h * 3);
-
             g2D.draw3DRect((int) oX2 + resolutionX / 2, (int) oY2 + resolutionY / 3, w * 2, h, true);
             //leftmost rectangle
             g2D.draw3DRect((int) oX2 + resolutionX / 4, (int) oY2 + resolutionY / 4, w * 2, h * 4, true);
@@ -216,8 +215,6 @@ public class Arrow extends JPanel implements ActionListener {
             //g2D.drawLine(resolutionX / 2 + h, resolutionY / 2, (3400 / 2) * 2, w2 * h);
             //g2D.drawLine((480), h2, 1, w2 * h);
 
-            //sine wave
-            g2D.drawOval((int) sinex, (int) siney + 500, 50, 50);
 
 
             //player
@@ -255,10 +252,13 @@ public class Arrow extends JPanel implements ActionListener {
         }
         ///end condition
 
+        //sine wave
+        g2D.drawOval((int) sinex, (int) siney + 500, 50, 50);
+
         //buildings
         int start = 200;
-        int[] addY = {43, 40, 410, 670, 230, 210, 290, 45, 67, 16};
-        int[] addX = {12, 2, 4, 33, 2, 3, 21, 11, 23, 4};
+        int[] addY = {43, 40, 410, 670, 200, 210, 290, 45, 67, 16};
+        int[] addX = {12, 2, 4, 33, 20, 7, 21, 11, 23, 4};
         for(int i = 0; i < 10; i=i+1){
             g2D.drawRect((start+i*100)+addX[i], (1300-i*10)-addY[i], 50+addX[i], i+ran*ran);
         }
@@ -268,34 +268,33 @@ public class Arrow extends JPanel implements ActionListener {
         //g2D.drawOval((int) left+1050+(int)left1, (int) right+1050+(int)right1, 20, 20);
         g2D.fillOval(2200, 600, 10, 10);
 
-        for(int x = 0; x < 2500; x = x + 100){
-            //g2D.drawRect((int) left + 500, (int) right + 800+x, 10, 10);
-        }
+        //funky
+        g2D.setColor(Color.green);
+        drawFunky(g);
+        drawBox(g);
+        drawCube(g);
+        drawCube1(g);
 
         //////////////////////////////////////////////////////////////////////
 
         if(draw){
         }
-
         if(put){
             //drawSquare(g);
         }
         if(placed){
             drawBall(g, 50, 50);
-            drawCube(g);
-            drawCube1(g);
         }
-
-
         if(size){
             a1 = a;
         }
-
-
         repaint();
     }
 
 
+    /*
+    TIMER
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         PointerInfo mouse = MouseInfo.getPointerInfo();
@@ -303,7 +302,7 @@ public class Arrow extends JPanel implements ActionListener {
         a = (int) m.getX();
         b = (int) m.getY();
 
-        angle = angle + 1/10.0;
+        angle = angle + 1/100.0;
         angleN = angleN + Math.PI/10;
         left = 300 * Math.sin(angle);
         right = 100 * Math.cos(angle);
@@ -398,19 +397,21 @@ public class Arrow extends JPanel implements ActionListener {
         //oY = oY + (x/1000.0) * (random1*Math.sin(random1));
 
 
+        //condition to reverse movement
         if(sinex >= 0 && !backtrack){
-            sinex = sinex + 10;
+            sinex = sinex + 1;
         }
         if(sinex == resolutionX/4 + w/4 - 50){
             backtrack = true;
         }
         if(backtrack){
-            sinex = sinex - 10;
+            sinex = sinex - 1;
         }
         if(sinex == 0){
             backtrack = false;
         }
-        siney = 10*Math.sin(sinex);
+
+        siney = 100*Math.sin(sinex/100);
 
         System.out.println((int) (Math.sin(angle)*10));
 
@@ -472,10 +473,6 @@ public class Arrow extends JPanel implements ActionListener {
                 && rectY >= oY2+(resolutionY/4) - startposY && rectY <= oY2+(resolutionY/4) - startposY + h*4){
             score = score + 1;
         }
-
-
-
-
 
 
         repaint();
@@ -546,6 +543,27 @@ public class Arrow extends JPanel implements ActionListener {
         int[] y = {200, 100, 400};
         g.drawPolygon(x, y, 3);
     }
+    public void drawFunky(Graphics g){
+        int n = (int) (90*Math.cos(angle));
+        int z = (int) (90*Math.sin(angle)*2);
+        int f = (int) (-90*Math.cos(angle));
+        int s = (int) (-90*Math.sin(angle)*2);
 
+        int[] x = {2200+n, 2300+z, 2400+f, 2300+s};
+        int[] y = {1200-n, 1100, 1200-n, 1300};
+
+        g.drawPolygon(x, y, 4);
+    }
+    public void drawBox(Graphics g){
+        int n = (int) (90*Math.cos(angle));
+        int z = (int) (90*Math.sin(angle));
+        int f = (int) (-90*Math.cos(angle));
+        int s = (int) (-90*Math.sin(angle));
+
+        int[] x = {2000+n, 2400+z, 2400+f, 2000+s};
+        int[] y = {900, 900, 800, 800};
+
+        g.drawPolygon(x, y, 4);
+    }
 
 }
