@@ -6,4 +6,4 @@ it has no start.
 and there is no ending.
 
 
-*seizure warning
+*warning - contains bright flashing lights
